@@ -68,9 +68,11 @@ export function renderAddPostPageComponent({ appEl }) {
       addPost({
         description: sanitize(description),
         imageUrl: imageUrl,
+      }).then(() =>
+         { goToPage(POSTS_PAGE);
       });
 
-      goToPage(POSTS_PAGE);
+      
     });
   };
 
