@@ -16,11 +16,12 @@ import {
   saveUserToLocalStorage,
 } from "./helpers.js";
 
-import { renderUserPostsPageComponent } from './components/user-post-page.js';
+import { renderUserPostsPageComponent } from './components/user-post-page-component.js';
 
 export let user = getUserFromLocalStorage();
 export let page = null;
 export let posts = [];
+export let setPosts = (newPosts) => {posts = newPosts};
 
 export const getToken = () => {
   const token = user ? `Bearer ${user.token}` : undefined;

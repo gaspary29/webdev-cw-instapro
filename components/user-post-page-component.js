@@ -1,9 +1,9 @@
-import { sanitize } from '../helpers';
+import { LikeDisLikeUserPosts, sanitize } from '../helpers.js';
 import { renderHeaderComponent } from './header-component.js';
 import { posts, getToken } from '../index.js';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { like, disLike } from '../api.js';
+
 
 export function renderUserPostsPageComponent({ appEl }) {
   const appHtml = posts.map((post, index) => {
@@ -67,31 +67,6 @@ export function renderUserPostsPageComponent({ appEl }) {
   renderHeaderComponent({
     element: document.querySelector('.header-container'),
   });
+LikeDisLikeUserPosts();
 
-  const likeButtons = document.querySelectorAll('.like-button');
-
-  for (let likeButton of likeButtons) {
-    likeButton.addEventListener('click', () => {
-      if (getToken() === undefined) {
-        return (likeButton.disabled = true);
-      } else {
-        likeButton.disabled = false;
-      }
-      const index = likeButton.dataset.postId;
-
-      if (posts[index].isLiked === false) {
-        posts[index].likes.length += 1;
-        posts[index].isLiked = !posts[index].isLiked;
-        like({ posts, getToken, index }).then(() => {
-          return renderUserPostsPageComponent({ appEl });
-        });
-      } else {
-        posts[index].likes.length += -1;
-        posts[index].isLiked = !posts[index].isLiked;
-        disLike({ posts, getToken, index }).then(() => {
-          return renderUserPostsPageComponent({ appEl });
-        });
-      }
-    });
-  }
 }

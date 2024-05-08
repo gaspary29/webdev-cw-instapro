@@ -1,10 +1,11 @@
 import { USER_POSTS_PAGE } from '../routes.js';
 import { renderHeaderComponent } from './header-component.js';
-import { posts, getToken, goToPage } from '../index.js';
-import { sanitize } from '../helpers.js';
-import { like, disLike } from '../api.js';
+import { posts,goToPage } from '../index.js';
+import { LikeDisLikePosts, sanitize } from '../helpers.js';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
+
+
 
 export function renderPostsPageComponent({ appEl }) {
   const postsHtml = posts
@@ -75,36 +76,8 @@ export function renderPostsPageComponent({ appEl }) {
     element: document.querySelector('.header-container'),
   });
 
-  const likeButtons = document.querySelectorAll('.like-button');
-
-  for (const likeButton of likeButtons) {
-    likeButton.addEventListener('click', () => {
-      if (getToken() === undefined) {
-        alert('Ставить лайки могут только авторизованные пользователи');
-        return (likeButton.disabled = true);
-      } else {
-        likeButton.disabled = false;
-      }
-
-      const index = likeButton.dataset.postId;
-
-      if (posts[index].isLiked === false) {
-        posts[index].likes.length += 1;
-        posts[index].isLiked = !posts[index].isLiked;
-        like({ posts, getToken, index }).then((data) => {
-          posts[index].likes = data.post.likes;
-          return renderPostsPageComponent({ appEl });
-        });
-      } else {
-        posts[index].likes.length += -1;
-        posts[index].isLiked = !posts[index].isLiked;
-        disLike({ posts, getToken, index }).then((data) => {
-          posts[index].likes = data.post.likes;
-          return renderPostsPageComponent({ appEl });
-        });
-      }
-    });
-  }
+  
+LikeDisLikePosts();
 
   for (let userEl of document.querySelectorAll('.post-header')) {
     userEl.disabled = false;
