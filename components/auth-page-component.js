@@ -127,9 +127,9 @@ export function renderAuthPageComponent({ appEl, setUser }) {
         }
 
         registerUser({
-          login: login,
+          login: sanitize(login),
           password: password,
-          name: name,
+          name: sanitize(name),
           imageUrl,
         })
           .then((user) => {
