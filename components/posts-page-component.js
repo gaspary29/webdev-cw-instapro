@@ -1,7 +1,7 @@
-import { USER_POSTS_PAGE } from '../routes.js';
+import { USER_POSTS_PAGE } from './routes.js';
 import { renderHeaderComponent } from './header-component.js';
-import { posts,goToPage } from '../index.js';
-import { LikeDisLikePosts, sanitize } from '../helpers.js';
+import { posts,goToPage } from './index.js';
+import { LikeDisLikePosts, sanitize } from './helpers.js';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -20,13 +20,13 @@ export function renderPostsPageComponent({ appEl }) {
         }
 
         if (likesCounter === 1) {
-          firstLiker = post.likes[0].name;
-          return `Нравится: <span><strong>${firstLiker}</strong></span>`;
+          firstLiker = sanitize(post.likes[0].name);
+          return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span>`;
         }
 
         if (likesCounter > 1) {
-          firstLiker = post.likes[0].name;
-          return `Нравится: <span><strong>${firstLiker}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
+          firstLiker = sanitize(post.likes[0].name);
+          return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
         }
       }
 

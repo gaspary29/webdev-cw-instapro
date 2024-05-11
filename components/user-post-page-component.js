@@ -1,4 +1,4 @@
-import { LikeDisLikeUserPosts, sanitize } from '../helpers.js';
+import { LikeDisLikePosts, sanitize } from '../helpers.js';
 import { renderHeaderComponent } from './header-component.js';
 import { posts, getToken } from '../index.js';
 import { formatDistanceToNow } from 'date-fns';
@@ -18,12 +18,12 @@ export function renderUserPostsPageComponent({ appEl }) {
 
       if (likesCounter === 1) {
         firstLiker = post.likes[0].name;
-        return `Нравится: <span><strong>${firstLiker}</strong></span>`;
+        return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span>`;
       }
 
       if (likesCounter > 1) {
         firstLiker = post.likes[0].name;
-        return `Нравится: <span><strong>${firstLiker}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
+        return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
       }
     }
 
@@ -59,7 +59,7 @@ export function renderUserPostsPageComponent({ appEl }) {
             <div class="header-container"></div>
             <div class="posts-user-header">
                 <img src="${posts[0].user.imageUrl}" class="posts-user-header__user-image">
-                <p class="posts-user-header__user-name">${posts[0].user.name}</p>
+                <p class="posts-user-header__user-name">${sanitize(posts[0].user.name)}</p>
             </div>
             ${appHtml}
         </div>`;
@@ -67,6 +67,6 @@ export function renderUserPostsPageComponent({ appEl }) {
   renderHeaderComponent({
     element: document.querySelector('.header-container'),
   });
-LikeDisLikeUserPosts();
+LikeDisLikePosts();
 
 }

@@ -1,5 +1,4 @@
 import {getToken, posts} from './index.js';
-import { setPosts } from './index.js';
 import { like, disLike } from './api.js';
 import { renderPostsPageComponent } from './components/posts-page-component.js';
 import { renderUserPostsPageComponent } from './components/user-post-page-component.js';
@@ -47,15 +46,25 @@ export function LikeDisLikePosts () {
       if (posts[index].isLiked === false) {
         like({ posts, getToken, index }).then((data) => {
           posts[index] = data.post;
-          setPosts(posts);
-          return renderPostsPageComponent({ appEl });
+          if (page === USER_POSTS_PAGE) {
+            return renderUserPostsPageComponent({ appEl });}
+            if (page === POSTS_PAGE) {
+              return renderPostsPageComponent({
+                appEl,
+              });
+            }
         });
       } else {
 
         disLike({ posts, getToken, index }).then((data) => {
           posts[index] = data.post;
-          setPosts(posts);
-          return renderPostsPageComponent({ appEl });
+          if (page === USER_POSTS_PAGE) {
+            return renderUserPostsPageComponent({ appEl });}
+            if (page === POSTS_PAGE) {
+              return renderPostsPageComponent({
+                appEl,
+              });
+            }
         });
       }
     });
@@ -63,36 +72,3 @@ export function LikeDisLikePosts () {
 }
 
 
-export function LikeDisLikeUserPosts () {
-
-  
-  const likeButtons = document.querySelectorAll('.like-button');
-
-  for (const likeButton of likeButtons) {
-    likeButton.addEventListener('click', () => {
-      if (getToken() === undefined) {
-        alert('Ставить лайки могут только авторизованные пользователи');
-        return (likeButton.disabled = true);
-      } else {
-        likeButton.disabled = false;
-      }
-
-      const index = likeButton.dataset.postId;
-
-      if (posts[index].isLiked === false) {
-        like({ posts, getToken, index }).then((data) => {
-          posts[index] = data.post;
-          setPosts(posts);
-          return renderUserPostsPageComponent({ appEl });
-        });
-      } else {
-
-        disLike({ posts, getToken, index }).then((data) => {
-          posts[index] = data.post;
-          setPosts(posts);
-          return renderUserPostsPageComponent({ appEl });
-        });
-      }
-    });
-  }
-}
