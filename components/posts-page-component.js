@@ -1,7 +1,7 @@
 import { USER_POSTS_PAGE } from './routes.js';
 import { renderHeaderComponent } from './header-component.js';
 import { posts,goToPage } from './index.js';
-import { LikeDisLikePosts, sanitize } from './helpers.js';
+import { LikeDisLikePosts, sanitize } from '/helpers.js';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
@@ -16,18 +16,19 @@ export function renderPostsPageComponent({ appEl }) {
 
       function likersRenderApp() {
         if (likesCounter === 0) {
-          return '';
+          return ``;
         }
 
         if (likesCounter === 1) {
           firstLiker = sanitize(post.likes[0].name);
-          return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span>`;
+          return `Нравится: <span><strong>${sanitize(post.likes[0].name)}</strong></span>`;
         }
 
         if (likesCounter > 1) {
           firstLiker = sanitize(post.likes[0].name);
-          return `Нравится: <span><strong>${sanitize(firstLiker)}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
+          return `Нравится: <span><strong>${sanitize(post.likes[0].name)}</strong></span> и <span></span><span><strong>${moreLikers}</strong></span>`;
         }
+  
       }
 
       const createdTimeToNow = formatDistanceToNow(new Date(post.createdAt), {
@@ -50,7 +51,7 @@ export function renderPostsPageComponent({ appEl }) {
                 <img style="${post.isLiked === true ? 'display: block' : 'display: none'}" src="./assets/images/like-active.svg">
               </button>
               <p class="post-likes-text">
-                ${likersRenderApp('')}
+                ${likersRenderApp("")}
               </p>
             </div>
             <p class="post-text">
