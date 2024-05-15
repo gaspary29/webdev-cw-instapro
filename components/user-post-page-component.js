@@ -1,6 +1,6 @@
-import { LikeDisLikePosts, sanitize } from '/helpers.js';
-import { renderHeaderComponent } from '/header-component.js';
-import { posts, getToken } from '/index.js';
+import { LikeDisLikePosts, sanitize } from '../helpers.js';
+import { renderHeaderComponent } from './header-component.js';
+import { posts, getToken } from '../index.js';
 import { formatDistanceToNow } from 'date-fns';
 import { ru } from 'date-fns/locale';
 
